@@ -28,8 +28,7 @@ $flashes = pull_flashes();
                 <a class="<?= $activePage === 'auctions' ? 'active' : '' ?>" href="<?= e(url('auctions.php')) ?>">Lelang</a>
                 <a class="<?= $activePage === 'items' ? 'active' : '' ?>" href="<?= e(url('items.php')) ?>">Barang</a>
                 <a class="<?= $activePage === 'education' ? 'active' : '' ?>" href="<?= e(url('education.php')) ?>">Edukasi Digital</a>
-                <a class="<?= $activePage === 'payments' ? 'active' : '' ?>" href="<?= e(url('payments.php')) ?>">Pembayaran</a>
-                <a class="<?= $activePage === 'distribution' ? 'active' : '' ?>" href="<?= e(url('distribution.php')) ?>">Distribusi</a>
+
                 <?php if (is_admin()): ?>
                     <div class="nav-label">Administrator</div>
                     <a class="<?= $activePage === 'users' ? 'active' : '' ?>" href="<?= e(url('users.php')) ?>">Pengguna</a>

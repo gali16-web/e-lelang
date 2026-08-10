@@ -14,17 +14,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $itemId = (int) ($_POST['item_id'] ?? 0);
     $startAt = str_replace('T', ' ', (string) ($_POST['start_at'] ?? ''));
     $endAt = str_replace('T', ' ', (string) ($_POST['end_at'] ?? ''));
-    $increment = filter_var($_POST['increment_amount'] ?? null, FILTER_VALIDATE_INT);
     $validItemIds = array_map(static fn(array $item): int => (int) $item['id'], $items);
     $errors = [];
     if (!in_array($itemId, $validItemIds, true)) $errors[] = 'Barang belum disetujui atau sudah memiliki jadwal aktif.';
     if (!$startAt || !$endAt || strtotime($endAt) <= strtotime($startAt)) $errors[] = 'Waktu selesai harus setelah waktu mulai.';
-    if (!$increment || $increment < 1000) $errors[] = 'Kenaikan minimal penawaran sekurang-kurangnya Rp1.000.';
 
     if (!$errors) {
         db()->beginTransaction();
-        $statement = db()->prepare('INSERT INTO auctions (item_id, start_at, end_at, increment_amount, status, created_by) VALUES (?, ?, ?, ?, "open", ?)');
-        $statement->execute([$itemId, $startAt, $endAt, $increment, current_user()['id']]);
+        $statement = db()->prepare('INSERT INTO auctions (item_id, start_at, end_at, increment_amount, status, created_by) VALUES (?, ?, ?, 0, "open", ?)');
+        $statement->execute([$itemId, $startAt, $endAt, current_user()['id']]);
         $auctionId = (int) db()->lastInsertId();
         db()->prepare('UPDATE items SET status="auctioned" WHERE id=?')->execute([$itemId]);
         db()->commit();
@@ -48,8 +46,7 @@ require __DIR__ . '/app/header.php';
             <div class="field full"><label>Barang</label><select name="item_id" required><option value="">Pilih barang</option><?php foreach ($items as $item): ?><option value="<?= e($item['id']) ?>"><?= e($item['name']) ?> — <?= e($item['owner_name']) ?> — <?= e(rupiah($item['starting_price'])) ?></option><?php endforeach; ?></select></div>
             <div class="field"><label>Waktu mulai</label><input type="datetime-local" name="start_at" required></div>
             <div class="field"><label>Waktu selesai</label><input type="datetime-local" name="end_at" required></div>
-            <div class="field"><label>Kenaikan minimal</label><input type="number" name="increment_amount" min="1000" step="1000" value="10000" required></div>
-            <div class="field full"><div class="callout"><strong>Aturan:</strong> setiap penawaran harus lebih tinggi dari penawaran tertinggi sebelumnya sekurang-kurangnya sebesar kenaikan minimal.</div></div>
+            <div class="field full"><div class="callout"><strong>Informasi:</strong> Ini adalah lelang penawaran tertutup (sealed bid). Peserta memasukkan penawaran secara mandiri dan tidak dapat melihat penawaran orang lain selama lelang berlangsung. Setelah waktu berakhir, Selection Sort akan mengurutkan penawaran dari terbesar ke terkecil.</div></div>
             <div class="field full"><div class="actions"><button class="btn btn-primary" type="submit">Buat jadwal</button><a class="btn btn-outline" href="<?= e(url('auctions.php')) ?>">Batal</a></div></div>
         </form>
     <?php endif; ?>

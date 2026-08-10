@@ -38,15 +38,19 @@ final class SelectionSorter
             }
 
             $swapped = $maxIndex !== $i;
+            $snapshotBefore = array_values($data);
             if ($swapped) {
                 [$data[$i], $data[$maxIndex]] = [$data[$maxIndex], $data[$i]];
             }
 
             $trace[] = [
-                'iteration' => $i + 1,
+                'iteration'      => $i + 1,
                 'selected_index' => $maxIndex,
-                'swapped' => $swapped,
-                'snapshot' => array_values($data),
+                'swapped'        => $swapped,
+                'swapped_from'   => $maxIndex,
+                'swapped_to'     => $i,
+                'snapshot_before' => $snapshotBefore,
+                'snapshot'       => array_values($data),
             ];
         }
 

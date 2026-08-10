@@ -130,7 +130,21 @@ require __DIR__ . '/app/header.php';
 <div class="section-head"><div><h2>Transparansi proses Selection Sort</h2><p>Jejak pengurutan dapat digunakan untuk pembelajaran dan pengujian algoritma.</p></div></div>
 <section class="card">
     <div class="table-wrap"><table><thead><tr><th>Iterasi</th><th>Hasil sementara</th><th>Pertukaran</th></tr></thead><tbody>
-        <?php foreach ($sorting['trace'] as $step): ?><tr><td>Iterasi <?= e($step['iteration']) ?></td><td><?php foreach ($step['snapshot'] as $position => $bid): ?><span class="badge <?= $position === 0 ? 'badge-success' : '' ?>"><?= e(rupiah($bid['amount'])) ?></span> <?php endforeach; ?></td><td><?= $step['swapped'] ? 'Terjadi pertukaran posisi' : 'Posisi sudah tepat' ?></td></tr><?php endforeach; ?>
+        <?php foreach ($sorting['trace'] as $step): ?><tr>
+            <td>Iterasi <?= e($step['iteration']) ?></td>
+            <td>
+                <?php foreach ($step['snapshot_before'] as $pos => $bid): ?>
+                    <span class="badge <?= ($step['swapped'] && ($pos === $step['swapped_from'] || $pos === $step['swapped_to'])) ? 'badge-warning' : '' ?>"><?= e(rupiah($bid['amount'])) ?></span>
+                <?php endforeach; ?>
+                <?php if ($step['swapped']): ?>
+                    &nbsp;→&nbsp;
+                    <?php foreach ($step['snapshot'] as $pos => $bid): ?>
+                        <span class="badge <?= $pos === $step['swapped_to'] ? 'badge-success' : '' ?>"><?= e(rupiah($bid['amount'])) ?></span>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </td>
+            <td><?= $step['swapped'] ? 'Tukar posisi ' . ($step['swapped_from'] + 1) . ' ↔ ' . ($step['swapped_to'] + 1) : 'Posisi sudah tepat' ?></td>
+        </tr><?php endforeach; ?>
     </tbody></table></div>
 </section>
 <?php endif; ?>
