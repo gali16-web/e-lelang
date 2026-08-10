@@ -1,0 +1,4 @@
+/uploads/items/*
+!/uploads/items/.htaccess
+/uploads/payments/*
+!/uploads/payments/.htaccess
