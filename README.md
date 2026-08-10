@@ -1,6 +1,6 @@
-# E-Lelang SMAN 12 Medan
+# E-Lelang 
 
-Aplikasi e-lelang berbasis PHP 8 dan MySQL sebagai media edukasi kewirausahaan digital bagi siswa SMAN 12 Medan. Pemenang lelang ditentukan melalui implementasi Selection Sort secara descending.
+Aplikasi e-lelang berbasis PHP 8 dan MySQL sebagai media edukasi kewirausahaan digital bagi siswa. Pemenang lelang ditentukan melalui implementasi Selection Sort secara descending.
 
 ## Persyaratan
 
