@@ -33,10 +33,6 @@ Segera ubah kata sandi melalui menu Profil setelah berhasil masuk.
 5. Pengguna selain pemilik barang memberikan penawaran selama periode berlangsung.
 6. Setiap daftar penawaran diurutkan secara descending menggunakan Selection Sort.
 7. Administrator menutup lelang; sistem menetapkan penawar tertinggi sebagai pemenang.
-8. Pemenang mengunggah bukti pembayaran ke rekening penjual.
-9. Administrator memverifikasi pembayaran.
-10. Penjual dan administrator mengatur distribusi barang sampai selesai.
-
 ## Implementasi Selection Sort
 
 Algoritma terdapat di `app/SelectionSorter.php`. Fungsi `descending()` mengurutkan nominal dari terbesar ke terkecil. Fungsi `withTrace()` juga menghasilkan jejak setiap iterasi untuk ditampilkan pada detail lelang dan digunakan dalam pengujian skripsi.
